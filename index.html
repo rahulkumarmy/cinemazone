@@ -1,87 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Universal Video Player</title>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-  <style>
-    body {
-      background: #f8fafc;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 30px;
-    }
-
-    h2 {
-      color: #0f172a;
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      max-width: 600px;
-      padding: 12px;
-      font-size: 16px;
-      margin-bottom: 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-    }
-
-    button {
-      padding: 10px 20px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #1d4ed8;
-    }
-
-    video {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 800px;
-      background: black;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Video Player with Server Switch</title>
+    <link rel="stylesheet" href="styless.css">
 </head>
 <body>
 
-  <h2>cinemazone</h2>
-  <input type="text" id="videoUrl" placeholder="Paste video URL (.mp4, .webm, .m3u8, etc.)" />
-  <button onclick="playVideo()">Play</button>
+    <div class="video-container">
+        <video id="videoPlayer" controls>
+            <source src="https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+    
+    </div>
 
-  <video id="video" controls></video>
+    <script>
+        const videoPlayer = document.getElementById("videoPlayer");
+        const serverSelect = document.getElementById("serverSelect");
 
-  <script>
-    function playVideo() {
-      const url = document.getElementById('videoUrl').value.trim();
-      const video = document.getElementById('video');
-      const extension = url.split('.').pop().toLowerCase();
-
-      if (Hls.isSupported() && extension === 'm3u8') {
-        const hls = new Hls();
-        hls.loadSource(url);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play();
+        serverSelect.addEventListener("change", () => {
+            const selectedSource = serverSelect.value;
+            videoPlayer.src = selectedSource;
+            videoPlayer.play(); // Auto-play after switching
         });
-      } else if (video.canPlayType('application/vnd.apple.mpegurl') && extension === 'm3u8') {
-        video.src = url;
-        video.play();
-      } else {
-        video.src = url;
-        video.play();
-      }
-    }
-  </script>
+    </script>
 
 </body>
 </html>
