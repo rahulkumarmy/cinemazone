@@ -1,32 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Video Player with Server Switch</title>
-    <link rel="stylesheet" href="styless.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Professional Video Player (Paste Link)</title>
+  <style>
+    body {
+      background-color: #111;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .video-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 60%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #00bcd4;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0097a7;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="video-container">
-        <video id="videoPlayer" controls>
-            <source src="https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        
-    
+  <div class="video-container">
+    <video id="videoPlayer" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Paste Link -->
+    <div>
+      <input type="text" id="videoUrl" placeholder="Paste video link here (.mp4, .m3u8, .webm)" />
+      <button onclick="playPastedVideo()">Play</button>
     </div>
+  </div>
 
-    <script>
-        const videoPlayer = document.getElementById("videoPlayer");
-        const serverSelect = document.getElementById("serverSelect");
+  <script>
+    function playPastedVideo() {
+      const videoPlayer = document.getElementById("videoPlayer");
+      const url = document.getElementById("videoUrl").value.trim();
 
-        serverSelect.addEventListener("change", () => {
-            const selectedSource = serverSelect.value;
-            videoPlayer.src = selectedSource;
-            videoPlayer.play(); // Auto-play after switching
-        });
-    </script>
+      if (!url) {
+        alert("Please paste a video link.");
+        return;
+      }
+
+      const source = document.createElement("source");
+      source.src = url;
+
+      if (url.includes(".m3u8")) {
+        source.type = "application/x-mpegURL";
+      } else if (url.includes(".webm")) {
+        source.type = "video/webm";
+      } else {
+        source.type = "video/mp4";
+      }
+
+      videoPlayer.innerHTML = "";
+      videoPlayer.appendChild(source);
+      videoPlayer.load();
+      videoPlayer.play();
+    }
+  </script>
 
 </body>
 </html>
